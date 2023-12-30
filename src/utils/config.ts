@@ -7,15 +7,13 @@ dotenv.config({
 
 const config = {
   Express: {
-    Port: new Number(process.env.EXPRESS_PORT) || 5000,
+    Port: Number(process.env.EXPRESS_PORT) || 5000,
     Host: process.env.HOST
   },
   Database: {
     URI: process.env.DATABASE_URI,
-    Port: new Number(process.env.DATABASE_PORT)
+    Port: Number(process.env.DATABASE_PORT)
   }
 };
-
-console.log(envFile);
 
 export default config;

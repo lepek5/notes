@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  # Node.js application
+  web:
+    image: node:14
+    container_name: notes-api
+    restart: always
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "5001:5001"
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+    env_file:
+      - ./.env.development
