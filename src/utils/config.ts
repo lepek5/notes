@@ -11,8 +11,7 @@ const config = {
     Host: process.env.HOST
   },
   Database: {
-    URI: process.env.DATABASE_URI,
-    Port: Number(process.env.DATABASE_PORT)
+    URI: process.env.DATABASE_URI as string
   }
 };
 
