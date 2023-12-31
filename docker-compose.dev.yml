@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   # Node.js application
-  web:
+  api:
     image: node:14
-    container_name: notes-api
+    container_name: notes-api-dev
     restart: always
     volumes:
       - .:/app
