@@ -11,7 +11,7 @@ afterAll(async () => {
 
 describe('addNote', () => {
   test('should add a new note', async () => {
-    
+
     const note = { user: 'lepe', content: 'prööt' };
     const response = await request(app)
       .post('/')
