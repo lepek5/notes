@@ -1,4 +1,4 @@
-Notes RESTapi
+Dockerized Notes RESTapi
 
 * Typescript
 * Express

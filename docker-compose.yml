@@ -1,0 +1,15 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: notes-api:latest
+    container_name: notes-api
+    restart: always
+    ports:
+      - "5001:5001"
+    environment:
+      NODE_ENV: production
+    env_file:
+      - .env.production
