@@ -4,7 +4,11 @@ Notes RESTapi
 * Express
 * MongoDB
 
-`npm run dev`
 >normal development
-`docker compose -f docker-compose.dev.yml up`
+
+`npm run dev`
+
+
 >development in container
+
+`docker compose -f docker-compose.dev.yml up`
