@@ -10,6 +10,11 @@ const connect = async () => {
   }
 }
 
+const disconnect = async () => {
+  await mongoose.disconnect();
+};
+
 export default {
-  connect
+  connect,
+  disconnect
 }
