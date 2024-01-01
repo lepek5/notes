@@ -14,7 +14,7 @@ on:
 
 
 jobs:
-  backend_pipeline:
+  publish:
     runs-on: ubuntu-20.04
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
@@ -51,3 +51,18 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  
+  publish:
+    needs: publish
+    name: deploy
+    runs_on: ubuntu-latest
+    steps:
+    - name: install ssh keys
+    - run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrects.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: Connect and Pull 
+    - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH:HOST }} "cd ${{ secrets.SSH_WORKDIR }} && docker compose pull && docker compose up -d && exit"
+    - name: Cleanup
+    - run: rm -rf ~./.ssh
