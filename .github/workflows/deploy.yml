@@ -10,7 +10,7 @@ on:
 
 
 jobs:
-  simple_deployment_pipeline:
+  backend_pipeline:
     runs-on: ubuntu-20.04
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
@@ -20,7 +20,9 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd backend
+          npm install
       - name: Run tests
         run: npm run test
       - name: Log in to Docker Hub

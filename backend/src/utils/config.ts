@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 const enviroment = process.env.NODE_ENV || 'development';
 const envFile = `.env.${enviroment}`;
 dotenv.config({
-  path: envFile
+  path: `../${envFile}`
 });
 
 const config = {
