@@ -2,10 +2,10 @@ name: Deploy Notes-Api
 
 on:
   push:
+    paths:
+      'backend/**'
     branches:
       - master
-    paths:
-      'backend/'
   pull_request:
     branches:
       - master
