@@ -52,7 +52,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   
-  publish:
+  deploy:
     needs: publish
     name: deploy
     runs_on: ubuntu-latest
