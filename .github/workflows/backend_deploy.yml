@@ -16,53 +16,39 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-20.04
+    name: Test and Publish Image
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-    - name: Install dependencies
-      run: |
-        cd backend
-        npm install
-    - name: Run tests
-      run: |
-        cd backend
-        npm run test
-    - name: Log in to Docker Hub
-      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
-        images: lepe1/notes-api
-        tags: latest
-    
-    - name: Build and push Docker image
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-      with:
-        context: ./backend/
-        file: ./backend/Dockerfile
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-  
-  deploy:
-    needs: publish
-    name: deploy
-    runs_on: ubuntu-latest
-    steps:
-    - name: install ssh keys
-    - run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrects.SSH_HOST }} > ~/.ssh/known_hosts
-    - name: Connect and Pull 
-    - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH:HOST }} "cd ${{ secrets.SSH_WORKDIR }} && docker compose pull && docker compose up -d && exit"
-    - name: Cleanup
-    - run: rm -rf ~./.ssh
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm install
+      - name: Run tests
+        run: |
+          cd backend
+          npm run test
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: lepe1/notes-api
+          tags: latest
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./backend/
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
