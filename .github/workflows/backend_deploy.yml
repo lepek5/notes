@@ -52,16 +52,18 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
   deploy:
     needs: publish
-    name: deploy
+    name: Deploy image to the server
     runs_on: ubuntu-latest
+
     steps:
       - name: install ssh keys
       - run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrects.SSH_HOST }} > ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: Connect and Pull 
       - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH:HOST }} "cd ${{ secrets.SSH_WORKDIR }} && docker compose pull && docker compose up -d && exit"
       - name: Cleanup
